@@ -38,4 +38,4 @@ RUN $RVM_LOAD && gem install rails -v $DEFAULT_RAILS_VERSION
 # change to default directory
 RUN cd $WORKDIR
 
-ENTRYPOINT ["/bin/bash", "-l"]
+ENTRYPOINT ["/bin/bash", "-l", "-c"]
