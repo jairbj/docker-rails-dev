@@ -1,0 +1,4 @@
+tags=(    latest    6.0.0.rc1   5.2.3)
+rails_v=( 6.0.0.rc1 6.0.0.rc1   5.2.3)
+ubuntu_v=(bionic    bionic      bionic)
+ruby_v=(  2.6.3     2.6.3       2.6.3)
