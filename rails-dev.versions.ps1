@@ -1,0 +1,20 @@
+$versions = @(
+    @{
+        tag="latest"; 
+        rails_version="6.0.0.rc1"; 
+        ubuntu_image="bionic"; 
+        ruby_version="2.6.3"
+    },
+    @{
+        tag="6.0.0.rc1"; 
+        rails_version="6.0.0.rc1"; 
+        ubuntu_image="bionic"; 
+        ruby_version="2.6.3"
+    },
+    @{
+        tag="5.2.3"; 
+        rails_version="5.2.3"; 
+        ubuntu_image="bionic"; 
+        ruby_version="2.6.3"
+    }
+)
