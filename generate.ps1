@@ -13,7 +13,7 @@ foreach ($version in $versions) {
 
     #Create the tag directory
     $dir = ".\Dockerfile\$($version['tag'])"
-    mkdir $dir    
+    mkdir $dir | Out-Null   
     
     #Render template into a Dockerfile
     $template | ForEach-Object {
