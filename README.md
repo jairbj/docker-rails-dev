@@ -48,5 +48,6 @@ docker-compose up -d
 ```
 ###### attach to container for running commands
 ```
-docker-compose exec web /bin/bash
+docker-compose exec web /bin/bash -l
 ```
+using **-l** is important otherwise it won't load RVM
