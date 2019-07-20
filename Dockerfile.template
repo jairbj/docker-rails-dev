@@ -27,13 +27,17 @@ RUN apt-get update
 # required for rails 
 RUN apt-get install -y libmysqlclient-dev libpq-dev libsqlite3-dev nodejs yarn ruby-tzinfo
 # extra packages
-RUN apt-get -y install git
+RUN apt-get -y install git imagemagick
 
 # install rvm
 RUN gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 RUN \curl -sSL https://get.rvm.io | bash -s stable
 RUN $RVM_LOAD && rvm install $DEFAULT_RUBY_VERSION && rvm cleanup all
 RUN $RVM_LOAD && gem install rails -v $DEFAULT_RAILS_VERSION
+
+# create an alternative gem directory for using as mounted volume
+RUN mkdir /usr/src/gem
+RUN echo "export GEM_HOME=/usr/src/gem" >> ~/.bashrc
 
 # change to default directory
 RUN cd $WORKDIR

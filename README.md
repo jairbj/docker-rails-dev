@@ -1,5 +1,10 @@
 ### RubyOnRails development environment
 
+# Updates
+### 2019/07/20
+- Added Imagemagick package
+- Added /usr/src/gem folder for using as a mapped volume for your gems
+
 # Important
 - You should run the container with the **-it** flag and **/bin/bash** command as it doesn't have any initial command.
 - When you run the **rails s** command you should bind it to **0.0.0.0**
@@ -8,7 +13,7 @@
 
 - It was made to be a reusable container, so creating and removing it each time will make you spend more time in development as you will need to reinstall all your gems. I suggest you set a **--name** to your container and reuse it.
 - It uses RVM to manage ruby version, so it's possible to install any ruby version you want.
-- It comes with rails pre installed but you can use any version of rails inside your projects.
+- It comes with rails pre-installed but you can use any version of rails inside your projects.
 - It's based on ubuntu image.
 
 #  Tags
@@ -27,7 +32,7 @@ rails s -b 0.0.0.0
 ```
 
 ##### docker-compose
-###### docker-compose.yml
+###### docker-compose.yml (example)
 ```yaml
 version: "3.7"
 services:
@@ -38,6 +43,7 @@ services:
       - "3000:3000"
     volumes:
       - "./:/usr/src/app"
+      - "./.gem:/usr/src/gem"
     command: "/bin/bash"
     tty: true
 ```
@@ -51,3 +57,44 @@ docker-compose up -d
 docker-compose exec web /bin/bash -l
 ```
 using **-l** is important otherwise it won't load RVM
+
+# Extra
+###### Complete rails stack docker-compose example (the way I use it)
+```yaml
+version: "3.7"
+services:
+  web:
+    image: "jairbj/rails-dev:latest"
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./:/usr/src/app"
+      - "./.gem:/usr/src/gem"
+    command: "/bin/bash"
+    tty: true
+    networks:
+      - railsapp
+    depends_on:
+      - db
+      - redis
+  db:
+    image: "mariadb:latest"
+    ports: 
+      - "3306:3306"
+    volumes:
+      - "./.mysql:/var/lib/mysql"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    networks:
+      - railsapp
+  redis:
+    image: "redis:latest"
+    networks:
+      - railsapp
+    ports: 
+      - "6379:6379"    
+networks:
+  railsapp:
+    driver: bridge
+```
+I exposed ports from both DB and REDIS for connecting external tools such as **HeidiSQL** and **RedisDesktopManager**. 
